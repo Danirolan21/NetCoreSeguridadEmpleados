@@ -36,11 +36,20 @@ namespace NetCoreSeguridadEmpleados.Repositories
         {
             List<Empleado> empleados = await
                 this.GetEmpleadosDepartamentoAsync(idDepartamento);
-            foreach(Empleado emp in empleados)
+            foreach (Empleado emp in empleados)
             {
                 emp.Salario += incremento;
             }
             await this.context.SaveChangesAsync();
+        }
+
+        public async Task<Empleado> LogInEmpleadoAsync
+                (string apellido, int idEmpleado)
+        { 
+            Empleado empleado = await this.context.Empleados
+            .Where(z => z.Apellido == apellido && 
+            z.IdEmpleado == idEmpleado).FirstOrDefaultAsync();
+            return empleado;
         }
     }
 }
